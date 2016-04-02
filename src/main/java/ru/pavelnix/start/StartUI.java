@@ -17,6 +17,7 @@ public class StartUI {
     public static void main(String[] args) {
         Input input = new ConsoleInput();
         StartUI startUI = new StartUI(input);
+        System.out.println("Chose action:");
         startUI.add();
         startUI.add();
         startUI.getAll();
