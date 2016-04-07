@@ -6,13 +6,14 @@ package ru.pavelnix.start;
 public class StartUITest {
     public static void main(String[] args) {
         Input input = new StubInput
-                (new String[]{"1",
+                (new String[]{"1",//add item
                         "1", "1", "1", "1",
-                        "2",
-                        "1",
+                        "2", //show items
+                        "1", //add item
                         "2", "2", "2", "2",
-                        "2",
-                        "4"});
+                        "2", //show items
+                        "4" //get item by id
+                });
         StartUI startUI = new StartUI(input);
         String id = startUI.menu();
         ((StubInput) input).setAnswers(new String[]{
