@@ -17,18 +17,47 @@ public class StartUI {
     public static void main(String[] args) {
         Input input = new ConsoleInput();
         StartUI startUI = new StartUI(input);
-        System.out.println("Chose action:");
-        startUI.add();
-        startUI.add();
-        startUI.getAll();
- /*
-        startUI.update();
-        startUI.getAll();
-        startUI.delete();
-        startUI.getAll();
-        startUI.getById();
- */
-        startUI.findByKey();
+        startUI.menu();
+    }
+
+    public String menu() {
+        String id = null;
+        int menuItem;
+        do {
+            menuItem = Integer.valueOf(input.ask(
+                    String.format("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s",
+                            "Menu:",
+                            "1. Add item",
+                            "2. Get all items",
+                            "3. Delete item",
+                            "4. Get item by id",
+                            "5. Get items by key",
+                            "6. Update item by id",
+                            "0. To exit",
+                            "Select an option: ")));
+            switch (menuItem) {
+                case 1:
+                    id = add();
+                    break;
+                case 2:
+                    getAll();
+                    break;
+                case 3:
+                    delete();
+                    break;
+                case 4:
+                    getById();
+                    break;
+                case 5:
+                    findByKey();
+                    break;
+                case 6:
+                    update();
+                    break;
+                //              case 7: addComment();break;
+            }
+        } while (menuItem != 0);
+        return id;
     }
 
     public String add() {
@@ -54,8 +83,12 @@ public class StartUI {
     }
 
     public void getAll() {
-        for (Item item : tracker.getAll()) {
-            System.out.println(item);
+        if (tracker.getAll() == null) {
+            System.out.println("Tracker if empty");
+        } else {
+            for (Item item : tracker.getAll()) {
+                System.out.println(item);
+            }
         }
     }
 

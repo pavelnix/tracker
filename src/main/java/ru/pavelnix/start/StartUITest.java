@@ -6,19 +6,21 @@ package ru.pavelnix.start;
 public class StartUITest {
     public static void main(String[] args) {
         Input input = new StubInput
-                (new String[]{
+                (new String[]{"1",
                         "1", "1", "1", "1",
-                        "1", "2", "2", "2",
-                        null, "2", "0", null,
-                        "1", null, "0", null,
-                });
+                        "2",
+                        "1",
+                        "2", "2", "2", "2",
+                        "2",
+                        "4"});
         StartUI startUI = new StartUI(input);
-        String id = startUI.add();
-        startUI.add();
-        startUI.getAll();
-        startUI.findByKey();
-        startUI.findByKey();
-        //((StubInput) input).setAnswers(new String[]{id});
+        String id = startUI.menu();
+        ((StubInput) input).setAnswers(new String[]{
+                id,
+                "0"});
+        //     startUI.menu();
+        //String id = startUI.add();
+        // ((StubInput) input).setAnswers(new String[]{id});
         //startUI.getById();
     }
 }
