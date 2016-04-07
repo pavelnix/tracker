@@ -9,14 +9,15 @@ public class StartUI {
     private Input input;
     private Tracker tracker;
 
-    public StartUI(Input input) {
+    public StartUI(Input input, Tracker tracker) {
         this.input = input;
-        tracker = new Tracker();
+        this.tracker = tracker;
     }
 
     public static void main(String[] args) {
         Input input = new ConsoleInput();
-        StartUI startUI = new StartUI(input);
+        Tracker tracker = new Tracker();
+        StartUI startUI = new StartUI(input, tracker);
         startUI.menu();
     }
 
