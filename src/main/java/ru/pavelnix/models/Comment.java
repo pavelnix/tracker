@@ -19,4 +19,13 @@ public class Comment {
     public String getItemId() {
         return this.itemId;
     }
+
+    @Override
+    public String toString() {
+        return "\n\t\tComment{" +
+                "text='" + text + '\'' +
+                ", date=" + date +
+                ", authorId='" + authorId + '\'' +
+                "}";
+    }
 }

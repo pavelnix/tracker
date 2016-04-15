@@ -101,7 +101,7 @@ public class Item {
                 ", description='" + description + '\'' +
                 ", date=" + date +
                 ", authorId='" + authorId + '\'' +
-                ", comments=" + Arrays.toString(comments) +
+                ", comments= " + Arrays.toString(comments) +
                 '}';
     }
 

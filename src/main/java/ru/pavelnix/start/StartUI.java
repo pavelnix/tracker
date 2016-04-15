@@ -1,5 +1,6 @@
 package ru.pavelnix.start;
 
+import ru.pavelnix.models.Comment;
 import ru.pavelnix.models.Item;
 
 /**
@@ -21,8 +22,7 @@ public class StartUI {
         startUI.menu();
     }
 
-    public String menu() {
-        String id = null;
+    public void menu() {
         int menuItem;
         do {
             menuItem = Integer.valueOf(input.ask(
@@ -38,7 +38,7 @@ public class StartUI {
                             "Select an option: ")));
             switch (menuItem) {
                 case 1:
-                    id = add();
+                    add();
                     break;
                 case 2:
                     getAll();
@@ -55,13 +55,23 @@ public class StartUI {
                 case 6:
                     update();
                     break;
-                //              case 7: addComment();break;
+                case 7:
+                    addComment();
+                    break;
             }
         } while (menuItem != 0);
-        return id;
     }
 
-    public String add() {
+    private void addComment() {
+        String id = input.ask("Please, enter id to add Comment: ");
+        String text = input.ask("Please, enter text of Comment: ");
+        long date = Long.valueOf(input.ask("Please, enter the date: "));
+        String author = input.ask("Please, enter the author: ");
+        Comment comment = new Comment(id, text, date, author);
+        tracker.add(comment);
+    }
+
+    public void add() {
 //        input.ask("Please, choose type of Item:\n1 - Comment\n2 - ComplaintSuggestions\n3 - Consultation");
         String name = input.ask("Add Item\nPlease, enter the name: ");
         String desk = input.ask("Please, enter the description: ");
@@ -69,7 +79,6 @@ public class StartUI {
         String author = input.ask("Please, enter the author: ");
         Item itemAdd = new Item(name, desk, date, author);
         tracker.add(itemAdd);
-        return itemAdd.getId();
     }
 
     public void update() {
