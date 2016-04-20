@@ -55,6 +55,7 @@ public class Tracker implements Track {
     public void update(Item item) {
         for (int i = 0; i < countItem; i++) {
             if (items[i].getId().equals(item.getId())) {
+                item.setComments(items[i].getComments());
                 items[i] = item;
                 break;
             }
@@ -127,11 +128,7 @@ public class Tracker implements Track {
             for (int i = 0; i < itemString.length; i++) {
                 if (filterString[i] == null) ;
                 else {
-                    if (filterString[i].equals(itemString[i])) {
-                        flag = true;
-                    } else {
-                        flag = false;
-                    }
+                    flag = filterString[i].equals(itemString[i]);
                 }
             }
 

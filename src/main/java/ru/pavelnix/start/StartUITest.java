@@ -10,11 +10,14 @@ public class StartUITest {
         Input input = new StubInput
                 (new String[]{"1",//add item
                         "1", "1", "1", "1",// item 1
+                        "n",
                         "2", //show items
+                        "n",
                         "1", //add item
                         "2", "2", "2", "2", //item 2
+                        "n",
                         "2", //show items
-                        "0"
+                        "y"
                 });
         Tracker tracker = new Tracker();
         StartUI startUI = new StartUI(input, tracker);
@@ -27,13 +30,22 @@ public class StartUITest {
         ((StubInput) input).setAnswers(new String[]{
                 "4", //Get item by ID
                 ids[0],
+                "n",
                 "7",
                 ids[0], "q", "12", "e",
+                "n",
                 "2",
+                "n",
                 "7",
                 ids[0], "1", "12", "e",
+                "n",
                 "2",
-                "0"
+                "n",
+                "6",
+                ids[0], "qw", "qw", "123", "qw",
+                "n",
+                "2",
+                "y"
         });
         startUI.menu();
     }

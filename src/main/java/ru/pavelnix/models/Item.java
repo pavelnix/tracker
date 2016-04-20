@@ -71,6 +71,10 @@ public class Item {
         return this.comments;
     }
 
+    public void setComments(Comment[] comments) {
+        this.comments = comments;
+    }
+
     public void addComment(Comment comment) {
         Comment[] newComments = new Comment[countComment + 1];
         if (countComment > 0){

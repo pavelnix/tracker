@@ -1,8 +1,5 @@
 package ru.pavelnix.start;
 
-import ru.pavelnix.models.Comment;
-import ru.pavelnix.models.Item;
-
 /**
  * Created by Administrator on 25.03.2016.
  */
@@ -23,6 +20,14 @@ public class StartUI {
     }
 
     public void menu() {
+        MenuTracker menu = new MenuTracker(input, tracker);
+        menu.fillActions();
+        do {
+            menu.show();
+            int menuItem = Integer.valueOf(input.ask("Select an option: "));
+            menu.select(menuItem);
+        } while (!"y".equals(this.input.ask("Exit? (y):")));
+ /*
         int menuItem;
         do {
             menuItem = Integer.valueOf(input.ask(
@@ -60,8 +65,10 @@ public class StartUI {
                     break;
             }
         } while (menuItem != 0);
+        */
     }
 
+    /*
     private void addComment() {
         String id = input.ask("Please, enter id to add Comment: ");
         String text = input.ask("Please, enter text of Comment: ");
@@ -128,4 +135,5 @@ public class StartUI {
         Item item = tracker.getById(id);
         System.out.println(item);
     }
+    */
 }
