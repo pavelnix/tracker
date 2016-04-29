@@ -24,7 +24,16 @@ public class StartUI {
         menu.fillActions();
         do {
             menu.show();
-            int menuItem = Integer.valueOf(input.ask("Select an option: "));
+            int menuItem = 0;
+            boolean invalid = true;
+            do {
+                try {
+                    menuItem = Integer.valueOf(input.ask("Select an option: "));
+                    invalid = false;
+                } catch (NumberFormatException ex) {
+                    System.out.println("Enter right value: ");
+                }
+            } while (invalid);
             menu.select(menuItem);
         } while (!"y".equals(this.input.ask("Exit? (y):")));
  /*

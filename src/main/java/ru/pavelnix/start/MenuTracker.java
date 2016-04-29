@@ -29,7 +29,8 @@ class UpdateItem implements UserAction {
         String id = input.ask("Please, enter id to update: ");
         String name = input.ask("Please, enter the new name: ");
         String desk = input.ask("Please, enter the new description: ");
-        long date = Long.valueOf(input.ask("Please, enter the new date: "));
+        MenuTracker menuTracker = new MenuTracker(input, tracker);
+        long date = menuTracker.dateFromString("Please, enter the new date: ");
         String author = input.ask("Please, enter the new author: ");
         Item item = new Item(name, desk, date, author);
         item.setId(id);
@@ -65,7 +66,13 @@ public class MenuTracker {
     }
 
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        try {
+            this.actions[key].execute(this.input, this.tracker);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Enter right value");
+        } catch (NullPointerException ex) {
+            System.out.println("Enter right value");
+        }
     }
 
     public void show() {
@@ -74,6 +81,20 @@ public class MenuTracker {
                 System.out.println(userAction.info());
             }
         }
+    }
+
+    public long dateFromString(String str) {
+        long date = 0;
+        boolean invalid = true;
+        do {
+            try {
+                date = Long.valueOf(input.ask(str));
+                invalid = false;
+            } catch (NumberFormatException ex) {
+                System.out.println("Enter right value: ");
+            }
+        } while (invalid);
+        return date;
     }
 
     private static class GetAllItem implements UserAction {
@@ -105,16 +126,21 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Create filter\nPlease, enter the name: ");
             String desk = input.ask("Please, enter the description: ");
-            long date = Long.valueOf(input.ask("Please, enter the date: "));
+            MenuTracker menuTracker = new MenuTracker(input, tracker);
+            long date = menuTracker.dateFromString("Please, enter the date: ");
             String author = input.ask("Please, enter the author: ");
             Filter filter = new Filter();
             filter.setName(name);
             filter.setDescription(desk);
             filter.setDate(date);
             filter.setAuthorId(author);
-            Item[] itemFilter = tracker.findByKey(filter);
-            for (Item item : itemFilter) {
-                System.out.println(item);
+            try {
+                Item[] itemFilter = tracker.findByKey(filter);
+                for (Item item : itemFilter) {
+                    System.out.println(item);
+                }
+            } catch (NullPointerException ex) {
+                System.out.println("Items not found");
             }
         }
 
@@ -132,7 +158,8 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Add Item\nPlease, enter the name: ");
             String desk = input.ask("Please, enter the description: ");
-            long date = Long.valueOf(input.ask("Please, enter the date: "));
+            MenuTracker menuTracker = new MenuTracker(input, tracker);
+            long date = menuTracker.dateFromString("Please, enter the date: ");
             String author = input.ask("Please, enter the author: ");
             Item itemAdd = new Item(name, desk, date, author);
             tracker.add(itemAdd);
@@ -151,8 +178,12 @@ public class MenuTracker {
 
         public void execute(Input input, Tracker tracker) {
             String id = input.ask("Please, enter id to get Item by id: ");
-            Item item = tracker.getById(id);
-            System.out.println(item);
+            try {
+                Item item = tracker.getById(id);
+                System.out.println(item);
+            } catch (NullPointerException ex) {
+                System.out.println("Item not found");
+            }
         }
 
         public String info() {
