@@ -3,7 +3,11 @@ package ru.pavelnix.start;
 import ru.pavelnix.models.Comment;
 import ru.pavelnix.models.Item;
 
-class DeleteItem implements UserAction {
+class DeleteItem extends BaseAction {
+
+    public DeleteItem(String name) {
+        super(name);
+    }
 
     public int key() {
         return 3;
@@ -13,13 +17,18 @@ class DeleteItem implements UserAction {
         String id = input.ask("Please, enter id to delete: ");
         tracker.delete(id);
     }
-
+/*
     public String info() {
         return String.format("%s. %s", this.key(), "Delete Item");
     }
+ */
 }
 
-class UpdateItem implements UserAction {
+class UpdateItem extends BaseAction {
+
+    public UpdateItem(String name) {
+        super(name);
+    }
 
     public int key() {
         return 6;
@@ -36,10 +45,11 @@ class UpdateItem implements UserAction {
         item.setId(id);
         tracker.update(item);
     }
-
+/*
     public String info() {
         return String.format("%s. %s", this.key(), "Update item");
     }
+    */
 }
 
 /**
@@ -56,13 +66,13 @@ public class MenuTracker {
     }
 
     public void fillActions() {
-        this.actions[1] = this.new AddItem();
-        this.actions[2] = new MenuTracker.GetAllItem();
-        this.actions[3] = new DeleteItem();
-        this.actions[4] = this.new GetItemById();
-        this.actions[5] = new MenuTracker.GetItemsByKey();
-        this.actions[6] = new UpdateItem();
-        this.actions[7] = this.new AddComment();
+        this.actions[1] = this.new AddItem("Add Item");
+        this.actions[2] = new MenuTracker.GetAllItem("Get all items");
+        this.actions[3] = new DeleteItem("Delete Item");
+        this.actions[4] = this.new GetItemById("Get Item By Id");
+        this.actions[5] = new MenuTracker.GetItemsByKey("Get items by key");
+        this.actions[6] = new UpdateItem("Update item");
+        this.actions[7] = this.new AddComment("Add comment");
     }
 
     public void select(int key) {
@@ -70,7 +80,7 @@ public class MenuTracker {
             this.actions[key].execute(this.input, this.tracker);
         } catch (ArrayIndexOutOfBoundsException ex) {
             System.out.println("Enter right value");
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException ex) { //Пункта меню с 0 номером нету
             System.out.println("Enter right value");
         }
     }
@@ -97,7 +107,12 @@ public class MenuTracker {
         return date;
     }
 
-    private static class GetAllItem implements UserAction {
+    private static class GetAllItem extends BaseAction {
+
+        public GetAllItem(String name) {
+            super(name);
+        }
+
         public int key() {
             return 2;
         }
@@ -111,13 +126,18 @@ public class MenuTracker {
                 }
             }
         }
-
+/*
         public String info() {
             return String.format("%s. %s", this.key(), "Get all items");
         }
+*/
     }
 
-    private static class GetItemsByKey implements UserAction {
+    private static class GetItemsByKey extends BaseAction {
+
+        public GetItemsByKey(String name) {
+            super(name);
+        }
 
         public int key() {
             return 5;
@@ -143,18 +163,25 @@ public class MenuTracker {
                 System.out.println("Items not found");
             }
         }
-
+/*
         public String info() {
             return String.format("%s. %s", this.key(), "Get items by key");
         }
+ */
     }
 
-    private class AddItem implements UserAction {
+    private class AddItem extends BaseAction {
 
+        public AddItem(String name) {
+            super(name);
+        }
+
+        @Override
         public int key() {
             return 1;
         }
 
+        @Override
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Add Item\nPlease, enter the name: ");
             String desk = input.ask("Please, enter the description: ");
@@ -165,12 +192,16 @@ public class MenuTracker {
             tracker.add(itemAdd);
         }
 
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add Item");
-        }
+        //  public String info() {
+        //      return String.format("%s. %s", this.key(), "Add Item");
+        //  }
     }
 
-    private class GetItemById implements UserAction {
+    private class GetItemById extends BaseAction {
+
+        public GetItemById(String name) {
+            super(name);
+        }
 
         public int key() {
             return 4;
@@ -185,13 +216,19 @@ public class MenuTracker {
                 System.out.println("Item not found");
             }
         }
-
+/*
         public String info() {
             return String.format("%s. %s", this.key(), "Get Item By Id");
         }
+  */
     }
 
-    private class AddComment implements UserAction {
+    private class AddComment extends BaseAction {
+
+        public AddComment(String name) {
+            super(name);
+        }
+
         public int key() {
             return 7;
         }
@@ -204,9 +241,10 @@ public class MenuTracker {
             Comment comment = new Comment(id, text, date, author);
             tracker.add(comment);
         }
-
+/*
         public String info() {
             return String.format("%s. %s", this.key(), "Add comment");
         }
+ */
     }
 }
