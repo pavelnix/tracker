@@ -21,7 +21,7 @@ public class StartUI {
 
     public void menu() {
         MenuTracker menu = new MenuTracker(input, tracker);
-        menu.fillActions();
+        int maxMenuIndex = menu.fillActions();
         do {
             menu.show();
             int menuItem = 0;
@@ -29,9 +29,15 @@ public class StartUI {
             do {
                 try {
                     menuItem = Integer.valueOf(input.ask("Select an option: "));
-                    invalid = false;
+                    if ((menuItem > 0) && (menuItem < maxMenuIndex)) {
+                        invalid = false;
+                    } else {
+                        throw new ArrayIndexOutOfBoundsException();
+                    }
                 } catch (NumberFormatException ex) {
                     System.out.println("Enter right value: ");
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    System.out.println("Enter right value");
                 }
             } while (invalid);
             menu.select(menuItem);

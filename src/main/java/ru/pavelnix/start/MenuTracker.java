@@ -56,16 +56,17 @@ class UpdateItem extends BaseAction {
  * Created by Administrator on 20.04.2016.
  */
 public class MenuTracker {
+    private final int USER_ACTION_COUNT = 8;
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[8];
+    private UserAction[] actions = new UserAction[USER_ACTION_COUNT];
 
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
         this.tracker = tracker;
     }
 
-    public void fillActions() {
+    public int fillActions() {
         this.actions[1] = this.new AddItem("Add Item");
         this.actions[2] = new MenuTracker.GetAllItem("Get all items");
         this.actions[3] = new DeleteItem("Delete Item");
@@ -73,16 +74,11 @@ public class MenuTracker {
         this.actions[5] = new MenuTracker.GetItemsByKey("Get items by key");
         this.actions[6] = new UpdateItem("Update item");
         this.actions[7] = this.new AddComment("Add comment");
+        return USER_ACTION_COUNT;
     }
 
     public void select(int key) {
-        try {
-            this.actions[key].execute(this.input, this.tracker);
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("Enter right value");
-        } catch (NullPointerException ex) { //Пункта меню с 0 номером нету
-            System.out.println("Enter right value");
-        }
+        this.actions[key].execute(this.input, this.tracker);
     }
 
     public void show() {
