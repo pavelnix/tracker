@@ -93,10 +93,12 @@ public class Tracker implements Track {
      */
     public Item getById(String id) {
         Item result = null;
-        for (Item item : items) {
-            if (item.getId().equals(id)) {
-                result = item;
-                break;
+        if (items != null) {
+            for (Item item : items) {
+                if (item.getId().equals(id)) {
+                    result = item;
+                    break;
+                }
             }
         }
         return result;
@@ -118,99 +120,31 @@ public class Tracker implements Track {
      * @return proposal
      */
     public Item[] findByKey(Filter filter) {
-        Item[] temp = new Item[countItem];
-        int count = 0;
-        boolean flag;
-        String[] filterString = filter.toArrayString();
-        for (Item item : items) {
-            flag = false;
-            String[] itemString = item.toArrayString();
-            for (int i = 0; i < itemString.length; i++) {
-                if (filterString[i] == null) ;
-                else {
-                    flag = filterString[i].equals(itemString[i]);
+        Item[] result = null;
+        if (items != null) {
+            Item[] temp = new Item[countItem];
+            int count = 0;
+            boolean flag;
+            String[] filterString = filter.toArrayString();
+            for (Item item : items) {
+                flag = false;
+                String[] itemString = item.toArrayString();
+                for (int i = 0; i < itemString.length; i++) {
+                    if (filterString[i] == null) ;
+                    else {
+                        flag = filterString[i].equals(itemString[i]);
+                    }
+                }
+
+                if (flag == true) {
+                    temp[count++] = item;
                 }
             }
-
-            if (flag == true) {
-                temp[count++] = item;
-            }
+            result = new Item[count];
+            System.arraycopy(temp, 0, result, 0, count);
         }
-        Item[] result = new Item[count];
-        System.arraycopy(temp, 0, result, 0, count);
-        return result;
-
-/*
-        Item[] result = items;
-        int i = 0;
-        if (filter.getName() != null) {
-            result = findByName(filter.getName());
-        }
-        if (filter.getDescription() != null) {
-            result = findByDescription(result, filter.getDescription());
-        }
-        if (filter.getDate() != 0) {
-            result = findByDate(result, filter.getDate());
-        }
-        if (filter.getAuthorId() != null) {
-            result = findByAuthorId(result, filter.getAuthorId());
-        }
-        return result;
-*/
-    }
-
-    private Item[] findByName(String name) {
-        Item[] temp = new Item[countItem];
-        int i = 0;
-        for (Item item : items) {
-            if (item.getName().equals(name)) {
-                temp[i++] = item;
-            }
-            }
-        Item[] result = new Item[i];
-        System.arraycopy(temp, 0, result, 0, i);
         return result;
     }
-
-    private Item[] findByDescription(Item[] itemCut, String description) {
-        Item[] temp = new Item[itemCut.length];
-        int i = 0;
-        for (Item item : itemCut) {
-            if (item.getDescription().equals(description)) {
-                temp[i++] = item;
-            }
-        }
-        Item[] result = new Item[i];
-        System.arraycopy(temp, 0, result, 0, i);
-        return result;
-    }
-
-    private Item[] findByDate(Item[] itemCut, long date) {
-        Item[] temp = new Item[itemCut.length];
-        int i = 0;
-        for (Item item : itemCut) {
-            if (item.getDate() == date) {
-                temp[i++] = item;
-            }
-        }
-        Item[] result = new Item[i];
-        System.arraycopy(temp, 0, result, 0, i);
-        return result;
-    }
-
-    private Item[] findByAuthorId(Item[] itemCut, String authorId) {
-        Item[] temp = new Item[itemCut.length];
-        int i = 0;
-        for (Item item : itemCut) {
-            if (item.getAuthorId().equals(authorId)) {
-                temp[i++] = item;
-            }
-        }
-        Item[] result = new Item[i];
-        System.arraycopy(temp, 0, result, 0, i);
-        return result;
-    }
-
     private String generateId() {
         return String.valueOf(System.currentTimeMillis() + RN.nextInt());
     }

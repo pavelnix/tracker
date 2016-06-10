@@ -27,16 +27,14 @@ public class StartUI {
             int menuItem = 0;
             boolean invalid = true;
             do {
-                try {
-                    menuItem = Integer.valueOf(input.ask("Select an option: "));
+                String menuStr = input.ask("Select an option: ");
+                if (menuStr.matches("^-?\\d+$")) {
+                    menuItem = Integer.valueOf(menuStr);
                     if ((menuItem > 0) && (menuItem < maxMenuIndex)) {
                         invalid = false;
-                    } else {
-                        throw new ArrayIndexOutOfBoundsException();
                     }
-                } catch (NumberFormatException ex) {
-                    System.out.println("Enter right value: ");
-                } catch (ArrayIndexOutOfBoundsException ex) {
+                    }
+                if (invalid) {
                     System.out.println("Enter right value");
                 }
             } while (invalid);

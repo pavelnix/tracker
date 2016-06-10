@@ -17,11 +17,6 @@ class DeleteItem extends BaseAction {
         String id = input.ask("Please, enter id to delete: ");
         tracker.delete(id);
     }
-/*
-    public String info() {
-        return String.format("%s. %s", this.key(), "Delete Item");
-    }
- */
 }
 
 class UpdateItem extends BaseAction {
@@ -45,21 +40,15 @@ class UpdateItem extends BaseAction {
         item.setId(id);
         tracker.update(item);
     }
-/*
-    public String info() {
-        return String.format("%s. %s", this.key(), "Update item");
-    }
-    */
 }
 
 /**
  * Created by Administrator on 20.04.2016.
  */
 public class MenuTracker {
-    private final int USER_ACTION_COUNT = 8;
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[USER_ACTION_COUNT];
+    private UserAction[] actions = new UserAction[8];
 
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
@@ -74,7 +63,7 @@ public class MenuTracker {
         this.actions[5] = new MenuTracker.GetItemsByKey("Get items by key");
         this.actions[6] = new UpdateItem("Update item");
         this.actions[7] = this.new AddComment("Add comment");
-        return USER_ACTION_COUNT;
+        return this.actions.length;
     }
 
     public void select(int key) {
@@ -93,10 +82,11 @@ public class MenuTracker {
         long date = 0;
         boolean invalid = true;
         do {
-            try {
-                date = Long.valueOf(input.ask(str));
+            String dateStr = input.ask(str);
+            if (dateStr.matches("^-?\\d+$")) {
+                date = Long.valueOf(dateStr);
                 invalid = false;
-            } catch (NumberFormatException ex) {
+            } else {
                 System.out.println("Enter right value: ");
             }
         } while (invalid);
@@ -122,11 +112,6 @@ public class MenuTracker {
                 }
             }
         }
-/*
-        public String info() {
-            return String.format("%s. %s", this.key(), "Get all items");
-        }
-*/
     }
 
     private static class GetItemsByKey extends BaseAction {
@@ -150,20 +135,15 @@ public class MenuTracker {
             filter.setDescription(desk);
             filter.setDate(date);
             filter.setAuthorId(author);
-            try {
-                Item[] itemFilter = tracker.findByKey(filter);
+            Item[] itemFilter = tracker.findByKey(filter);
+            if (itemFilter == null) {
+                System.out.println("Items not found");
+            } else {
                 for (Item item : itemFilter) {
                     System.out.println(item);
                 }
-            } catch (NullPointerException ex) {
-                System.out.println("Items not found");
             }
         }
-/*
-        public String info() {
-            return String.format("%s. %s", this.key(), "Get items by key");
-        }
- */
     }
 
     private class AddItem extends BaseAction {
@@ -187,10 +167,6 @@ public class MenuTracker {
             Item itemAdd = new Item(name, desk, date, author);
             tracker.add(itemAdd);
         }
-
-        //  public String info() {
-        //      return String.format("%s. %s", this.key(), "Add Item");
-        //  }
     }
 
     private class GetItemById extends BaseAction {
@@ -205,18 +181,13 @@ public class MenuTracker {
 
         public void execute(Input input, Tracker tracker) {
             String id = input.ask("Please, enter id to get Item by id: ");
-            try {
                 Item item = tracker.getById(id);
+            if (item != null) {
                 System.out.println(item);
-            } catch (NullPointerException ex) {
+            } else {
                 System.out.println("Item not found");
             }
         }
-/*
-        public String info() {
-            return String.format("%s. %s", this.key(), "Get Item By Id");
-        }
-  */
     }
 
     private class AddComment extends BaseAction {
@@ -237,10 +208,5 @@ public class MenuTracker {
             Comment comment = new Comment(id, text, date, author);
             tracker.add(comment);
         }
-/*
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add comment");
-        }
- */
     }
 }

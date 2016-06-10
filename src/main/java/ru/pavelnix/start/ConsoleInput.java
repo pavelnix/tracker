@@ -12,7 +12,6 @@ public class ConsoleInput implements Input {
     public String ask(String questions) {
         System.out.print(questions);
         String ret = scanner.nextLine();
-        ret = "".equals(ret) ? null : ret;
         return ret;
     }
 }

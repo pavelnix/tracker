@@ -15,7 +15,9 @@ public class Filter {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (!"".equals(name)) {
+            this.name = name;
+        }
     }
 
     public String getDescription() {
@@ -23,7 +25,9 @@ public class Filter {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (!"".equals(description)) {
+            this.description = description;
+        }
     }
 
     public long getDate() {
@@ -39,7 +43,9 @@ public class Filter {
     }
 
     public void setAuthorId(String authorId) {
-        this.authorId = authorId;
+        if (!"".equals(authorId)) {
+            this.authorId = authorId;
+        }
     }
 
     public String[] toArrayString() {
